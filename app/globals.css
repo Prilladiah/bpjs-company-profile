@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: #1f2937;
+}
+
+@layer components {
+  .section-title {
+    @apply relative inline-block text-2xl md:text-3xl font-bold text-gray-900 pb-2;
+  }
+  .section-title::after {
+    content: "";
+    @apply absolute left-0 bottom-0 h-[3px] w-full bg-brand-blue rounded;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-md bg-brand-green px-5 py-2.5 font-semibold text-white shadow-card transition hover:bg-brand-green-dark;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-md bg-gray-200 px-5 py-2.5 font-semibold text-gray-800 transition hover:bg-gray-300;
+  }
+  .card-surface {
+    @apply rounded-xl border border-blue-100 bg-white shadow-card;
+  }
+}

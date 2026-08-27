@@ -1,0 +1,222 @@
+// ============================================================
+// BPJS Ketenagakerjaan Kantor Cabang Yogyakarta - Company Profile
+// Database schema (Prisma / PostgreSQL)
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ------------------------------------------------------------
+// AUTH
+// ------------------------------------------------------------
+
+/// Admin / operator accounts that can log in to the /admin panel
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String // bcrypt hash
+  name      String
+  role      AdminRole @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+enum AdminRole {
+  SUPERADMIN
+  ADMIN
+}
+
+// ------------------------------------------------------------
+// BERITA & KEGIATAN  (Home page news cards / "Kelola Berita")
+// ------------------------------------------------------------
+
+model Berita {
+  id          String   @id @default(cuid())
+  keterangan  String // headline / description shown on the card
+  tanggal     DateTime // e.g. "18 Agustus 2026"
+  link        String? // external / source link ("Selengkapnya")
+  foto        String? // image url/path
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("berita")
+  @@index([tanggal])
+}
+
+// ------------------------------------------------------------
+// GALERI  (grouped by category: Kinerja Utama, Capaian, Aktivitas)
+// ------------------------------------------------------------
+
+model Galeri {
+  id         String        @id @default(cuid())
+  keterangan String
+  kategori   GaleriKategori
+  foto       String
+  urutan     Int           @default(0)
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@map("galeri")
+  @@index([kategori])
+}
+
+enum GaleriKategori {
+  KINERJA_UTAMA
+  CAPAIAN
+  AKTIVITAS
+}
+
+// ------------------------------------------------------------
+// KERJASAMA  (partnership logos/photos shown on Home + admin CRUD)
+// ------------------------------------------------------------
+
+model Kerjasama {
+  id              String           @id @default(cuid())
+  namaPerusahaan  String
+  kategori        KerjasamaKategori
+  deskripsi       String? // bullet points / short description
+  foto            String?
+  urutan          Int              @default(0)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@map("kerjasama")
+  @@index([kategori])
+}
+
+enum KerjasamaKategori {
+  PEMERINTAH_DAERAH
+  DUNIA_USAHA
+  PERGURUAN_TINGGI
+  KOMUNITAS_PEKERJA
+  MEDIA_DAN_DIGITAL
+}
+
+// ------------------------------------------------------------
+// STRUKTUR ORGANISASI  (self-referencing tree / org chart)
+// ------------------------------------------------------------
+
+model StrukturOrganisasi {
+  id        String   @id @default(cuid())
+  nama      String
+  jabatan   String
+  foto      String?
+  urutan    Int      @default(0)
+
+  parentId  String?
+  parent    StrukturOrganisasi?  @relation("OrgTree", fields: [parentId], references: [id], onDelete: Cascade)
+  children  StrukturOrganisasi[] @relation("OrgTree")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("struktur_organisasi")
+  @@index([parentId])
+}
+
+// ------------------------------------------------------------
+// LAYANAN / JAMINAN  (JKK, JKM, JHT, JP, JKP + "Layanan BPJS")
+// Powers both /layanan and /cara-klaim pages
+// ------------------------------------------------------------
+
+model Layanan {
+  id          String         @id @default(cuid())
+  kode        String         @unique // e.g. "JHT", "JKK", "JKM", "JP", "JKP"
+  nama        String // "Jaminan Hari Tua (JHT)"
+  deskripsi   String // paragraph shown as intro on /cara-klaim detail
+  icon        String? // icon name or image path
+  kategori    LayananKategori
+  urutan      Int            @default(0)
+  isActive    Boolean        @default(true)
+
+  kriteria    KriteriaKlaim[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@map("layanan")
+  @@index([kategori])
+}
+
+enum LayananKategori {
+  PROGRAM_UTAMA        // JKK, JKM, JHT, JP, JKP shown on /layanan "Program Utama"
+  PROGRAM_UNGGULAN     // numbered highlight cards at top of /layanan
+  LAYANAN_TAMBAHAN     // JMO, Lapak Asik, Kantor Cabang, Call Center
+}
+
+/// Bullet list under "Kriteria Pengajuan Klaim" for a given Layanan
+model KriteriaKlaim {
+  id        String  @id @default(cuid())
+  layananId String
+  layanan   Layanan @relation(fields: [layananId], references: [id], onDelete: Cascade)
+  teks      String
+  urutan    Int     @default(0)
+
+  @@map("kriteria_klaim")
+  @@index([layananId])
+}
+
+/// Generic step-by-step "Cara Klaim" flow (Persyaratan Klaim -> ... -> Konfirmasi)
+model LangkahKlaim {
+  id     String @id @default(cuid())
+  judul  String
+  icon   String?
+  urutan Int    @default(0)
+
+  @@map("langkah_klaim")
+}
+
+// ------------------------------------------------------------
+// PROFIL PERUSAHAAN (Tentang Kami: Sejarah, Timeline, Visi & Misi)
+// ------------------------------------------------------------
+
+model Sejarah {
+  id     String @id @default(cuid())
+  isi    String // paragraph text
+  foto   String?
+
+  @@map("sejarah")
+}
+
+model TimelineItem {
+  id        String   @id @default(cuid())
+  tanggal   String // "5 Desember 1977"
+  judul     String // "Perum ASTEK (Asuransi Sosial Tenaga Kerja)"
+  urutan    Int      @default(0)
+
+  @@map("timeline_item")
+}
+
+model VisiMisi {
+  id    String   @id @default(cuid())
+  visi  String
+  misi  String[] // list of mission points
+  @@map("visi_misi")
+}
+
+// ------------------------------------------------------------
+// PENGATURAN SITUS  (footer: Alamat, Contact, Email, Jam Kerja)
+// ------------------------------------------------------------
+
+model SiteSettings {
+  id            String @id @default("settings") // singleton row
+  alamat        String
+  kontak        String
+  email         String
+  jamKerja      String
+  namaKantor    String @default("BPJS Ketenagakerjaan Kantor Cabang Yogyakarta")
+  logoUrl       String?
+
+  updatedAt     DateTime @updatedAt
+
+  @@map("site_settings")
+}
