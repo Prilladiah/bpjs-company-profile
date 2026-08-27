@@ -186,12 +186,12 @@ async function main() {
 
   // ---------------- Kerjasama ----------------
   await prisma.kerjasama.deleteMany();
-  const kerjasamaData: { kategori: KerjasamaKategori; nama: string; deskripsi: string }[] = [
-    { kategori: "PEMERINTAH_DAERAH", nama: "Pemerintah Daerah DIY", deskripsi: "Pemprov DIY/Pemkab/Pemkot, Dinas terkait, Pemerintah Kapanewon/ Kelurahan\nPerluasan kepesertaan, Perlindungan pekerja sektor informal (kelurahan/gampong)" },
-    { kategori: "DUNIA_USAHA", nama: "Perusahaan BUMN/Swasta", deskripsi: "Perusahaan BUMN/Swasta, Asosiasi pengusaha\nAkurasi & pertukaran kepesertaan, CRR & relationship perusahaan, Kepatuhan jaminan sosial, Peningkatan kualitas layanan" },
-    { kategori: "PERGURUAN_TINGGI", nama: "Universitas & Mahasiswa", deskripsi: "Universitas, Mahasiswa, LSM\nEdukasi jaminan sosial melalui KKN & pengabdian masyarakat, Literasi kepesertaan bagi kelompok informal" },
-    { kategori: "KOMUNITAS_PEKERJA", nama: "Komunitas Pekerja & Serikat", deskripsi: "Komunitas pekerja, Ojek online, Ojek, Serikat pekerja\nSosialisasi untuk Melindungi Aktivitas pekerja BPJS, Edukasi dan pendampingan" },
-    { kategori: "MEDIA_DAN_DIGITAL", nama: "Media Lokal & Digital", deskripsi: "Media lokal, Influencer/creator, Kanal digital\nLiterasi jaminan sosial, Publikasi program, Kampanye perlindungan" },
+  const kerjasamaData: { kategori: KerjasamaKategori; namaPerusahaan: string; deskripsi: string }[] = [
+    { kategori: "PEMERINTAH_DAERAH", namaPerusahaan: "Pemerintah Daerah DIY", deskripsi: "Pemprov DIY/Pemkab/Pemkot, Dinas terkait, Pemerintah Kapanewon/ Kelurahan\nPerluasan kepesertaan, Perlindungan pekerja sektor informal (kelurahan/gampong)" },
+    { kategori: "DUNIA_USAHA", namaPerusahaan: "Perusahaan BUMN/Swasta", deskripsi: "Perusahaan BUMN/Swasta, Asosiasi pengusaha\nAkurasi & pertukaran kepesertaan, CRR & relationship perusahaan, Kepatuhan jaminan sosial, Peningkatan kualitas layanan" },
+    { kategori: "PERGURUAN_TINGGI", namaPerusahaan: "Universitas & Mahasiswa", deskripsi: "Universitas, Mahasiswa, LSM\nEdukasi jaminan sosial melalui KKN & pengabdian masyarakat, Literasi kepesertaan bagi kelompok informal" },
+    { kategori: "KOMUNITAS_PEKERJA", namaPerusahaan: "Komunitas Pekerja & Serikat", deskripsi: "Komunitas pekerja, Ojek online, Ojek, Serikat pekerja\nSosialisasi untuk Melindungi Aktivitas pekerja BPJS, Edukasi dan pendampingan" },
+    { kategori: "MEDIA_DAN_DIGITAL", namaPerusahaan: "Media Lokal & Digital", deskripsi: "Media lokal, Influencer/creator, Kanal digital\nLiterasi jaminan sosial, Publikasi program, Kampanye perlindungan" },
   ];
   await prisma.kerjasama.createMany({
     data: kerjasamaData.map((k, i) => ({ ...k, foto: `/images/kerjasama-${(i % 3) + 1}.jpg`, urutan: i + 1 })),
