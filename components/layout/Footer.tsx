@@ -20,15 +20,17 @@ export default function Footer({ settings = DEFAULT_SETTINGS }: { settings?: Sit
         </svg>
       </div>
 
-      <a href="https://www.instagram.com/dulureworker.yk/" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram kami" className="absolute right-16 top-8 z-10 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-white/10 transition hover:bg-white/20 md:right-24 md:top-10">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-          <path d="M16 11.37a4 4 0 1 1-7.914 1.174A4 4 0 0 1 16 11.37z" />
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-        </svg>
-      </a>
+      <div className="relative mx-auto flex max-w-7xl justify-end px-4 pt-6 md:px-8">
+        <a href="https://www.instagram.com/dulureworker.yk/" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram kami" className="flex aspect-square h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/10 transition hover:bg-white/20">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 flex-shrink-0 text-white">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37a4 4 0 1 1-7.914 1.174A4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        </a>
+      </div>
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 md:grid-cols-4 md:px-8">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 pb-12 pt-4 md:grid-cols-4 md:px-8">
         <div className="flex items-start">
           <img
             src={settings.logoUrl || "/images/logobulatbpjs.png"}
