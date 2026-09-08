@@ -9,7 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 const MENU = [
   { href: "/admin/berita", label: "Kelola Berita", icon: Newspaper },
   { href: "/admin/galeri", label: "Kelola Galeri", icon: Images },
-  { href: "/admin/kerjasama", label: "Kelola Kerjsama", icon: Handshake },
+  { href: "/admin/kerjasama", label: "Kelola Kerja Sama", icon: Handshake },
   { href: "/admin/struktur-organisasi", label: "Struktur Organisasi", icon: Network },
 ];
 
@@ -18,7 +18,7 @@ export default function Sidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="flex h-screen w-64 flex-shrink-0 flex-col justify-between bg-brand-blue-dark text-white">
+    <aside className="sticky top-0 flex h-screen w-64 flex-shrink-0 flex-col justify-between bg-brand-blue-dark text-white">
       <nav className="mt-4 flex flex-col gap-1 px-3">
         {MENU.map(({ href, label, icon: Icon }) => {
           const active = pathname.startsWith(href);

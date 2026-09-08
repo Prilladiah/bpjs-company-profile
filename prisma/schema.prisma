@@ -8,8 +8,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ------------------------------------------------------------
@@ -80,17 +81,17 @@ enum GaleriKategori {
 // ------------------------------------------------------------
 
 model Kerjasama {
-  id              String           @id @default(cuid())
-  namaPerusahaan  String
-  kategori        KerjasamaKategori
-  deskripsi       String? // bullet points / short description
-  foto            String?
-  urutan          Int              @default(0)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  id        String            @id @default(cuid())
+  kategori  KerjasamaKategori @unique   // 1 baris tetap per kategori (5 total)
+  judul     String                       // judul kartu, mis. "PEMERINTAH DAERAH"
+  foto      String?
+  poinAwal  String[]                     // bullet di samping foto
+  poinAkhir String[]                     // baris teks di bawah kartu (tanpa bullet)
+  urutan    Int               @default(0)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
 
   @@map("kerjasama")
-  @@index([kategori])
 }
 
 enum KerjasamaKategori {
@@ -101,26 +102,37 @@ enum KerjasamaKategori {
   MEDIA_DAN_DIGITAL
 }
 
+model KerjasamaLogo {
+  id     String  @id @default(cuid())
+  nama   String
+  logo   String
+  link   String?
+  urutan Int     @default(0)
+
+  @@map("kerjasama_logo")
+}
+
+model KerjasamaTestimoni {
+  id      String  @id @default(cuid())
+  isi     String
+  nama    String?
+  jabatan String?
+  urutan  Int     @default(0)
+
+  @@map("kerjasama_testimoni")
+}
+
 // ------------------------------------------------------------
-// STRUKTUR ORGANISASI  (self-referencing tree / org chart)
+// STRUKTUR ORGANISASI  (single uploaded image/PDF, replaces old tree)
 // ------------------------------------------------------------
 
-model StrukturOrganisasi {
-  id        String   @id @default(cuid())
-  nama      String
-  jabatan   String
-  foto      String?
-  urutan    Int      @default(0)
-
-  parentId  String?
-  parent    StrukturOrganisasi?  @relation("OrgTree", fields: [parentId], references: [id], onDelete: Cascade)
-  children  StrukturOrganisasi[] @relation("OrgTree")
-
-  createdAt DateTime @default(now())
+model StrukturOrganisasiFile {
+  id        String   @id @default("struktur") // singleton row
+  fileUrl   String
+  fileType  String   @default("image") // "image" | "pdf"
   updatedAt DateTime @updatedAt
 
-  @@map("struktur_organisasi")
-  @@index([parentId])
+  @@map("struktur_organisasi_file")
 }
 
 // ------------------------------------------------------------
@@ -138,8 +150,9 @@ model Layanan {
   urutan      Int            @default(0)
   isActive    Boolean        @default(true)
 
-  kriteria    KriteriaKlaim[]
-
+  kriteriaJudul  String  @default("Kriteria Pengajuan Klaim")
+  kriteriaKonten String? @db.Text
+  
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
@@ -151,18 +164,6 @@ enum LayananKategori {
   PROGRAM_UTAMA        // JKK, JKM, JHT, JP, JKP shown on /layanan "Program Utama"
   PROGRAM_UNGGULAN     // numbered highlight cards at top of /layanan
   LAYANAN_TAMBAHAN     // JMO, Lapak Asik, Kantor Cabang, Call Center
-}
-
-/// Bullet list under "Kriteria Pengajuan Klaim" for a given Layanan
-model KriteriaKlaim {
-  id        String  @id @default(cuid())
-  layananId String
-  layanan   Layanan @relation(fields: [layananId], references: [id], onDelete: Cascade)
-  teks      String
-  urutan    Int     @default(0)
-
-  @@map("kriteria_klaim")
-  @@index([layananId])
 }
 
 /// Generic step-by-step "Cara Klaim" flow (Persyaratan Klaim -> ... -> Konfirmasi)

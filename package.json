@@ -2,6 +2,9 @@
   "name": "bpjs-ketenagakerjaan-yogyakarta",
   "version": "1.0.0",
   "private": true,
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -12,6 +15,7 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
     "prisma:seed": "tsx prisma/seed.ts"
+
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",

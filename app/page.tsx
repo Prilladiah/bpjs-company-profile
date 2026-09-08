@@ -10,31 +10,65 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 60;
 
 async function getData() {
-  const [berita, kerjasama, settings] = await Promise.all([
-    prisma.berita.findMany({
-      where: { isPublished: true },
-      orderBy: { tanggal: "desc" },
-      take: 4,
-    }),
-    prisma.kerjasama.findMany({ orderBy: { urutan: "asc" } }),
-    prisma.siteSettings.findUnique({ where: { id: "settings" } }),
-  ]);
-  return { berita, kerjasama, settings };
+  const [berita, kerjasama, kerjasamaLogo, kerjasamaTestimoni, settings] =
+    await Promise.all([
+      prisma.berita.findMany({
+        where: { isPublished: true },
+        orderBy: { tanggal: "desc" },
+        take: 12,
+      }),
+      prisma.kerjasama.findMany({
+        orderBy: { urutan: "asc" },
+      }),
+      prisma.kerjasamaLogo.findMany({
+        orderBy: { urutan: "asc" },
+      }),
+      prisma.kerjasamaTestimoni.findMany({
+        orderBy: { urutan: "asc" },
+      }),
+      prisma.siteSettings.findUnique({
+        where: { id: "settings" },
+      }),
+    ]);
+
+  return {
+    berita,
+    kerjasama,
+    kerjasamaLogo,
+    kerjasamaTestimoni,
+    settings,
+  };
 }
 
 export default async function HomePage() {
-  const { berita, kerjasama, settings } = await getData();
+  const {
+    berita,
+    kerjasama,
+    kerjasamaLogo,
+    kerjasamaTestimoni,
+    settings,
+  } = await getData();
 
   return (
     <>
       <Navbar />
-      <main>
+
+      <main className="overflow-x-hidden">
         <Hero />
+
         <AboutPreview />
+
         <NewsSection items={JSON.parse(JSON.stringify(berita))} />
-        <PartnershipSection items={JSON.parse(JSON.stringify(kerjasama))} />
+
+        <PartnershipSection
+          items={JSON.parse(JSON.stringify(kerjasama))}
+          logos={JSON.parse(JSON.stringify(kerjasamaLogo))}
+          testimoni={JSON.parse(JSON.stringify(kerjasamaTestimoni))}
+        />
+
         <LocationMap />
       </main>
+
       <Footer settings={settings ?? undefined} />
     </>
   );

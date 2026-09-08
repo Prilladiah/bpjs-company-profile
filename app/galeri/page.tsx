@@ -27,6 +27,11 @@ export default async function GaleriPage() {
       <main className="bg-brand-blue-light/30">
         <section className="mx-auto max-w-6xl px-4 py-10 text-center md:px-8">
           <h1 className="section-title mx-auto block w-fit">Galeri BPJS Yogyakarta</h1>
+          <div className="mt-5 flex items-center justify-center gap-2">
+              <div className="h-[3px] w-20 rounded-full bg-[#0057A8]" />
+              <div className="h-2 w-2 rounded-full bg-[#68B545]" />
+              <div className="h-[3px] w-20 rounded-full bg-[#0057A8]" />
+          </div>
         </section>
 
         {KATEGORI_ORDER.map((kategori) => {
@@ -44,7 +49,8 @@ export default async function GaleriPage() {
                     <div className="relative h-48 w-full bg-gray-100">
                       <Image src={item.foto} alt={item.keterangan} fill className="object-cover" />
                     </div>
-                    <figcaption className="bg-gray-50 p-3 text-xs text-gray-600">
+                    {/* Keterangan lengkap kini bisa di-scroll, tidak lagi terpotong */}
+                    <figcaption className="max-h-24 overflow-y-auto bg-gray-50 p-3 text-xs leading-relaxed text-gray-600">
                       {item.keterangan}
                     </figcaption>
                   </figure>

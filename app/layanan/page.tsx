@@ -1,70 +1,191 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { prisma } from "@/lib/prisma";
-import {
-  ShieldCheck,
-  Users,
-  PiggyBank,
-  UserCheck,
-  Briefcase,
-  Smartphone,
-  Laptop,
-  Building2,
-  Phone,
-} from "lucide-react";
 
 export const revalidate = 60;
 
-const ICONS: Record<string, any> = {
-  "shield-plus": ShieldCheck,
-  users: Users,
-  "piggy-bank": PiggyBank,
-  "user-check": UserCheck,
-  briefcase: Briefcase,
-  smartphone: Smartphone,
-  laptop: Laptop,
-  building: Building2,
-  phone: Phone,
-};
-
 async function getData() {
-  const [programUtama, layananTambahan, settings] = await Promise.all([
-    prisma.layanan.findMany({ where: { kategori: "PROGRAM_UTAMA" }, orderBy: { urutan: "asc" } }),
-    prisma.layanan.findMany({ where: { kategori: "LAYANAN_TAMBAHAN" }, orderBy: { urutan: "asc" } }),
-    prisma.siteSettings.findUnique({ where: { id: "settings" } }),
-  ]);
-  return { programUtama, layananTambahan, settings };
+  const settings = await prisma.siteSettings.findUnique({ where: { id: "settings" } });
+  return { settings };
 }
 
+// Tinggal ganti "src" di bawah ini dengan path gambar yang kamu mau.
+// Taruh SEMUA file gambar Program Unggulan di satu folder: public/images/unggulan/
+// Taruh SEMUA file gambar Program Unggulan di satu folder: public/images/unggulan/
+// "scale"   = kontrol besar-kecil gambar (1 = normal, >1 diperbesar, <1 diperkecil)
+// "offsetY" = kontrol naik/turun gambar dalam px (negatif = naik, positif = turun)
+// Ubah angkanya lalu cek hasilnya di browser, ulangi sampai semua sejajar & sama besar.
 const PROGRAM_UNGGULAN = [
-  { no: 1, judul: "G54-GERAKAN 50.400", desc: "Perluasan perlindungan pekerja melalui iuran terjangkau." },
-  { no: 2, judul: "OPTIMALISASI MLT PERUMAHAN", desc: "Memperluas akses layanan manfaat tambahan bagi peserta." },
-  { no: 3, judul: "SRAWUNG UNTUK MELINDUNGI", desc: "Pendekatan komunitas dan engagement untuk memperluas kepesertaan." },
-  { no: 4, judul: "DIGITALISASI LAYANAN", desc: "Optimalisasi JMO dan kanal digital untuk kemudahan peserta." },
-  { no: 5, judul: "PROGRAM SEJAHTERAKAN PEKERJA SEKITAR (SERTAKAN)", desc: "Memberikan perlindungan kepada pekerja di sekitar wilayah kerja untuk kesejahteraan bersama." },
-  { no: 6, judul: "GARWA SURGA", desc: "" },
+  {
+    no: 1,
+    src: "/images/1PUL.png",
+    judul: "G54-GERAKAN 50.400",
+    desc: "Perluasan perlindungan pekerja melalui iuran terjangkau.",
+    scale: 1.8,
+    offsetY: 0,
+  },
+  {
+    no: 2,
+    src: "/images/2PUL.png",
+    judul: "OPTIMALISASI MLT PERUMAHAN",
+    desc: "Memperluas akses layanan manfaat tambahan bagi peserta.",
+    scale: 1,
+    offsetY: 4,
+  },
+  {
+    no: 3,
+    src: "/images/3PUL.png",
+    judul: "SRAWUNG UNTUK MELINDUNGI",
+    desc: "Pendekatan komunitas dan engagement untuk memperluas kepesertaan.",
+    scale: 1.9,
+    offsetY: 0,
+  },
+  {
+    no: 4,
+    src: "/images/4PUL.png",
+    judul: "DIGITALISASI LAYANAN",
+    desc: "Optimalisasi JMO dan kanal digital untuk kemudahan peserta.",
+    scale: 1.9,
+    offsetY: 0,
+  },
+  {
+    no: 5,
+    src: "/images/5PUL.png",
+    judul: "PROGRAM SEJAHTERAKAN PEKERJA SEKITAR (SERTAKAN)",
+    desc: "Memberikan perlindungan kepada pekerja di sekitar wilayah kerja untuk kesejahteraan bersama.",
+    scale: 1.9,
+    offsetY: -1,
+  },
+  {
+    no: 6,
+    src: "/images/6PUL.png",
+    judul: "GARWA SURGA",
+    desc: "",
+    scale: 1.9,
+    offsetY: 0,
+  },
+];
+
+// Program Utama BPJS (5 program) — taruh gambar di: public/images/program-utama/
+const PROGRAM_UTAMA = [
+  {
+    no: 1,
+    src: "/images/JKK.png",
+    judul: "Jaminan Kecelakaan Kerja (JKK)",
+    desc: "Memberikan perlindungan dan biaya pengobatan atas risiko kecelakaan kerja atau penyakit akibat kerja.",
+  },
+  {
+    no: 2,
+    src: "/images/JKM.png",
+    judul: "Jaminan Kematian (JKM)",
+    desc: "Memberikan santunan dan manfaat uang tunai kepada ahli waris ketika peserta meninggal dunia bukan karena kecelakaan kerja.",
+  },
+  {
+    no: 3,
+    src: "/images/JHT.png",
+    judul: "Jaminan Hari Tua (JHT)",
+    desc: "Program tabungan jangka panjang di mana uang tunai akan dibayarkan sekaligus saat peserta memasuki usia pensiun, mengalami cacat total, atau meninggal dunia.",
+  },
+  {
+    no: 4,
+    src: "/images/JP.png",
+    judul: "Jaminan Pensiun (JP)",
+    desc: "Program berkala yang bertujuan mempertahankan derajat kehidupan yang layak saat peserta memasuki usia pensiun atau mengalami cacat total.",
+  },
+  {
+    no: 5,
+    src: "/images/JKP.png",
+    judul: "Jaminan Kehilangan Pekerjaan (JKP)",
+    desc: "Memberikan manfaat berupa uang tunai, akses informasi pasar kerja, dan pelatihan kerja bagi pekerja yang mengalami pemutusan hubungan kerja (PHK).",
+  },
+];
+
+// Layanan BPJS (4 layanan) — taruh gambar di: public/images/layanan/
+const LAYANAN_BPJS = [
+  {
+    no: 1,
+    src: "/images/1layanan.png",
+    judul: "Aplikasi JMO (Jamsostek Mobile)",
+    desc: "Digunakan untuk klaim saldo JHT di bawah batas tertentu, cek saldo, dan pendaftaran mandiri dengan proses pencairan dalam hitungan menit.",
+  },
+  {
+    no: 2,
+    src: "/images/2layanan.png",
+    judul: "Lapak Asik (Online)",
+    desc: "Layanan klaim online melalui website resmi Cara Klaim BPJS Ketenagakerjaan bagi peserta yang memenuhi syarat dokumen.",
+  },
+  {
+    no: 3,
+    src: "/images/3layanan.jpg",
+    judul: "Kantor Cabang",
+    desc: "Datang langsung ke kantor cabang terdekat untuk layanan tatap muka pada hari kerja (Senin–Jumat pukul 09.00–15.00 WIB).",
+  },
+  {
+    no: 4,
+    src: "/images/4layanan.png",
+    judul: "Call Center / Layanan Masyarakat",
+    desc: "Hubungi nomor 175 untuk informasi dan pengaduan.",
+  },
 ];
 
 export default async function LayananPage() {
-  const { programUtama, layananTambahan, settings } = await getData();
+  const { settings } = await getData();
 
   return (
     <>
       <Navbar />
       <main className="bg-brand-blue-light/30">
         {/* Program Unggulan */}
-        <section className="mx-auto max-w-6xl px-4 py-12 text-center md:px-8">
-          <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">Program Unggulan &amp; Layanan BPJS</h1>
-          <p className="mt-1 text-sm text-gray-500">Bergerak Melampaui Layanan, Menciptakan Dampak.</p>
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center md:px-8">
+        <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
+          Program Unggulan &amp; Layanan BPJS
+        </h2>
+        <div className="mb-8 mt-6 flex items-center justify-center gap-2">
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
+          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
+        </div>
+          <p className="mt-1 text-sm text-gray-500">
+            Bergerak Melampaui Layanan, Menciptakan Dampak.
+          </p>
 
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
             {PROGRAM_UNGGULAN.map((p) => (
-              <div key={p.no} className="card-surface flex flex-col items-center p-4 text-center">
-                <span className="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-brand-blue text-sm font-bold text-white">
+              <div
+                key={p.no}
+                className="flex h-full flex-col items-center rounded-xl border-2 border-brand-blue/30 bg-white p-4 text-center shadow-sm transition hover:border-brand-blue hover:shadow-md"
+              >
+                {/*
+                  Kotak ikon dikunci ukuran TETAP (h-20 w-20) dan diberi padding (p-3)
+                  supaya semua gambar—apa pun ukuran aslinya—tampil dengan bobot visual
+                  yang sama (tidak ada yang terlihat lebih besar/kecil dari yang lain).
+                  Ganti ukuran di className "h-20 w-20" kalau mau ubah ukuran kotak ikon.
+                */}
+                <div className="mb-3 flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={p.src}
+                    alt={p.judul}
+                    className="h-full w-full object-contain"
+                    style={{
+                      transform: `scale(${p.scale ?? 1}) translateY(${p.offsetY ?? 0}px)`,
+                    }}
+                  />
+                </div>
+
+                {/*
+                  Badge nomor: aspect-square + shrink-0 memastikan lingkaran selalu
+                  bulat sempurna dan sejajar (tidak "miring") di semua ukuran layar,
+                  karena sebelumnya bisa terkompres jadi oval saat grid menyempit.
+                */}
+                <span className="mb-2 flex aspect-square h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-brand-blue text-xs font-bold leading-none text-white">
                   {p.no}
                 </span>
+
                 <p className="text-xs font-bold text-gray-800">{p.judul}</p>
-                {p.desc && <p className="mt-1 text-[11px] text-gray-500">{p.desc}</p>}
+                {p.desc && (
+                  <p className="mt-1 text-[11px] text-gray-500">{p.desc}</p>
+                )}
               </div>
             ))}
           </div>
@@ -72,43 +193,71 @@ export default async function LayananPage() {
 
         {/* Program Utama */}
         <section className="mx-auto max-w-5xl px-4 pb-12 md:px-8">
-          <h2 className="section-title mx-auto mb-8 block w-fit text-center">Program Utama BPJS Yogyakarta</h2>
+          <h2 className="section-title mx-auto mb-8 block w-fit text-center">
+            Program Utama BPJS Yogyakarta
+          </h2>
+        <div className="mb-8 mt-4 flex items-center justify-center gap-2">
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
+          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
+        </div>
           <div className="space-y-4 rounded-xl bg-brand-blue-light p-6">
-            {programUtama.map((l) => {
-              const Icon = ICONS[l.icon ?? ""] ?? ShieldCheck;
-              return (
-                <div key={l.id} className="flex gap-4 rounded-lg bg-white p-4 shadow-card">
-                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md border-2 border-brand-blue text-brand-blue">
-                    <Icon size={22} />
-                  </span>
-                  <div>
-                    <h3 className="font-bold text-gray-800">{l.nama}:</h3>
-                    <p className="mt-1 text-sm text-gray-600">{l.deskripsi}</p>
-                  </div>
+            {PROGRAM_UTAMA.map((l) => (
+              <div
+                key={l.no}
+                className="flex items-start gap-4 rounded-lg bg-white p-4 shadow-card"
+              >
+                <div className="flex h-[80px] w-[80px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-100 bg-white p-2 shadow-sm">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={l.src}
+                    alt={l.judul}
+                    width={80}
+                    height={80}
+                    className="h-full w-full object-contain"
+                  />
                 </div>
-              );
-            })}
+                <div>
+                  <h3 className="font-bold text-gray-800">{l.judul}:</h3>
+                  <p className="mt-1 text-sm text-gray-600">{l.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Layanan Tambahan */}
         <section className="mx-auto max-w-5xl px-4 pb-16 md:px-8">
-          <h2 className="section-title mx-auto mb-8 block w-fit text-center">Layanan BPJS Yogyakarta</h2>
+          <h2 className="section-title mx-auto mb-8 block w-fit text-center">
+            Layanan BPJS Yogyakarta
+          </h2>
+        <div className="mb-8 mt-4 flex items-center justify-center gap-2">
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
+          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
+          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
+        </div>
           <div className="space-y-4 rounded-xl bg-brand-blue-light p-6">
-            {layananTambahan.map((l) => {
-              const Icon = ICONS[l.icon ?? ""] ?? Smartphone;
-              return (
-                <div key={l.id} className="flex gap-4 rounded-lg bg-white p-4 shadow-card">
-                  <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-md bg-brand-blue text-white">
-                    <Icon size={22} />
-                  </span>
-                  <div>
-                    <h3 className="font-bold text-gray-800">{l.nama}:</h3>
-                    <p className="mt-1 text-sm text-gray-600">{l.deskripsi}</p>
-                  </div>
+            {LAYANAN_BPJS.map((l) => (
+              <div
+                key={l.no}
+                className="flex items-start gap-4 rounded-lg bg-white p-4 shadow-card"
+              >
+                <div className="flex h-[80px] w-[80px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-100 bg-white p-2 shadow-sm">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={l.src}
+                    alt={l.judul}
+                    width={80}
+                    height={80}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
-              );
-            })}
+                <div>
+                  <h3 className="font-bold text-gray-800">{l.judul}:</h3>
+                  <p className="mt-1 text-sm text-gray-600">{l.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
       </main>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Sidebar from "@/components/admin/Sidebar";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -5,15 +6,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen bg-gray-50 font-sans">
       <Sidebar />
       <div className="flex-1">
-        <header className="border-b border-gray-100 bg-white px-8 py-4">
-          <span className="text-lg font-bold text-brand-blue">
-            BPJS <span className="text-brand-green">Ketenagakerjaan</span>
-          </span>
-          <span className="ml-2 text-xs font-semibold uppercase text-gray-400">
-            Kantor Cabang Yogyakarta
-          </span>
+        <header className="border-b border-gray-100 bg-white px-4 py-4 sm:px-8">
+          <Image
+            src="/images/logobpjs.png"
+            alt="BPJS Ketenagakerjaan"
+            width={160}
+            height={40}
+            className="h-8 w-auto object-contain"
+            priority
+          />
         </header>
-        <main className="p-8">{children}</main>
+        <main className="overflow-x-auto p-4 sm:p-8">{children}</main>
       </div>
     </div>
   );

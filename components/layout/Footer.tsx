@@ -2,11 +2,12 @@ import type { SiteSettings } from "@/types";
 
 const DEFAULT_SETTINGS: SiteSettings = {
   alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
-  kontak: "(0274) 000000",
-  email: "info@bpjsketenagakerjaan-yogyakarta.go.id",
+  kontak: "175",
+  email: "Kacab.yogyakarta@bpjsketenagakerjaan.go.id",
   jamKerja: "Senin - Jumat : 08.00 - 15.00",
   namaKantor: "BPJS Ketenagakerjaan Kantor Cabang Yogyakarta",
   logoUrl: null,
+  instagramUrl: "https://www.instagram.com/dulureworker.yk/",
 };
 
 export default function Footer({ settings = DEFAULT_SETTINGS }: { settings?: SiteSettings }) {
@@ -19,13 +20,23 @@ export default function Footer({ settings = DEFAULT_SETTINGS }: { settings?: Sit
         </svg>
       </div>
 
+      <a href="https://www.instagram.com/dulureworker.yk/" target="_blank" rel="noopener noreferrer" aria-label="Kunjungi Instagram kami" className="absolute right-16 top-8 z-10 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-white/10 transition hover:bg-white/20 md:right-24 md:top-10">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+          <path d="M16 11.37a4 4 0 1 1-7.914 1.174A4 4 0 0 1 16 11.37z" />
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+        </svg>
+      </a>
+
       <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-12 md:grid-cols-4 md:px-8">
         <div className="flex items-start">
-          <svg width="70" height="70" viewBox="0 0 40 40" fill="none">
-            <path d="M8 28c4-10 12-18 24-20-2 12-10 20-24 20z" fill="#4CAF50" />
-            <path d="M4 32c6-8 14-14 24-16-4 10-14 16-24 16z" fill="#ffffff" />
-            <path d="M2 34c5-6 12-10 20-12-3 8-11 12-20 12z" fill="#C6D62E" />
-          </svg>
+          <img
+            src={settings.logoUrl || "/images/logobulatbpjs.png"}
+            alt="Logo BPJS Ketenagakerjaan"
+            width={100}
+            height={100}
+            className="h-[100px] w-[100px] object-contain"
+          />
         </div>
 
         <div>

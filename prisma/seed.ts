@@ -25,7 +25,7 @@ async function main() {
       id: "settings",
       alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
       kontak: "(0274) 000000",
-      email: "info@bpjsketenagakerjaan-yogyakarta.go.id",
+      email: "Kacab.yogyakarta@bpjsketenagakerjaan.go.id",
       jamKerja: "Senin - Jumat : 08.00 - 15.00",
     },
   });
@@ -62,60 +62,108 @@ async function main() {
   // ---------------- Layanan (Program Utama) ----------------
   const programUtama = [
     {
-      kode: "JKK",
-      nama: "Jaminan Kecelakaan Kerja (JKK)",
-      deskripsi: "Memberikan perlindungan dan biaya pengobatan atas risiko kecelakaan kerja atau penyakit akibat kerja.",
-      icon: "shield-plus",
-      kriteria: ["Kecelakaan saat perjalanan kerja", "Kecelakaan di tempat kerja", "Penyakit akibat kerja", "Cacat akibat kecelakaan kerja"],
+      kode: "JHT",
+      nama: "Jaminan Hari Tua (JHT)",
+      deskripsi:
+        "Jaminan Hari Tua (JHT) adalah program perlindungan sosial dari BPJS Ketenagakerjaan berupa uang tunai. Dana ini berasal dari akumulasi iuran dan hasil pengembangannya, yang dibayarkan sekaligus saat peserta memasuki usia pensiun (56 tahun), mengalami cacat total tetap, atau meninggal dunia.",
+      icon: "piggy-bank",
+      kriteriaJudul: "Kriteria Pengajuan Klaim",
+      kriteriaKonten: `<ul>
+        <li>Usia Pensiun 56 Tahun</li>
+        <li>Usia Pensiun Perjanjian Kerja Bersama (PKB) Perusahaan</li>
+        <li>Perjanjian Kerja Waktu Tertentu (PKWT)</li>
+        <li>Berhenti usaha Bukan Penerima Upah (BPU)</li>
+        <li>Mengundurkan diri</li>
+        <li>Pemutusan Hubungan Kerja (PHK)</li>
+        <li>Meninggalkan Indonesia untuk selama-lamanya</li>
+        <li>Cacat total tetap</li>
+        <li>Meninggal dunia</li>
+        <li>Klaim Sebagian Jaminan Hari Tua (JHT) 10%</li>
+        <li>Klaim Sebagian Jaminan Hari Tua (JHT) 30%</li>
+        <li>Klaim Jaminan Hari Tua (JHT) PMI</li>
+      </ul>`,
     },
     {
       kode: "JKM",
       nama: "Jaminan Kematian (JKM)",
-      deskripsi: "Memberikan santunan dan manfaat uang tunai kepada ahli waris ketika peserta meninggal dunia bukan karena kecelakaan kerja.",
+      deskripsi:
+        "Jaminan Kematian (JKM) adalah program perlindungan dari BPJS Ketenagakerjaan yang memberikan santunan uang tunai kepada ahli waris jika peserta meninggal dunia bukan akibat kecelakaan kerja.",
       icon: "users",
-      kriteria: ["Peserta meninggal dunia bukan karena kecelakaan kerja", "Ahli waris terdaftar", "Kepesertaan aktif"],
+      kriteriaJudul: "Dokumen Klaim",
+      kriteriaKonten: `<ul>
+        <li>Kartu peserta BPJS Ketenagakerjaan</li>
+        <li>Fotokopi E-KTP tenaga kerja dan ahli waris</li>
+        <li>Akta kematian</li>
+        <li>Fotokopi Kartu Keluarga</li>
+        <li>Surat Keterangan ahli waris dari pejabat yang berwenang</li>
+        <li>Buku Nikah (apabila ahli waris merupakan istri/suami sah peserta)</li>
+        <li>Dokumen pendukung lainnya apabila diperlukan</li>
+      </ul>`,
     },
     {
-      kode: "JHT",
-      nama: "Jaminan Hari Tua (JHT)",
-      deskripsi: "Jaminan Hari Tua (JHT) adalah program perlindungan sosial dari BPJS Ketenagakerjaan berupa uang tunai. Dana ini berasal dari akumulasi iuran dan hasil pengembangannya, yang dibayarkan sekaligus saat peserta memasuki usia pensiun (56 tahun), mengalami cacat total tetap, atau meninggal dunia.",
-      icon: "piggy-bank",
-      kriteria: [
-        "Usia Pensiun 56 Tahun",
-        "Usia Pensiun Perjanjian Kerja Bersama (PKB) Perusahaan",
-        "Perjanjian Kerja Waktu Tertentu (PKWT)",
-        "Berhenti usaha Bukan Penerima Upah (BPU)",
-        "Mengundurkan diri",
-        "Pemutusan Hubungan Kerja (PHK)",
-        "Meninggalkan Indonesia untuk selama-lamanya",
-        "Cacat total tetap",
-        "Meninggal dunia",
-        "Klaim Sebagian Jaminan Hari Tua (JHT) 10%",
-        "Klaim Sebagian Jaminan Hari Tua (JHT) 30%",
-        "Klaim Jaminan Hari Tua (JHT) PMI",
-      ],
+      kode: "JKK",
+      nama: "Jaminan Kecelakaan Kerja (JKK)",
+      deskripsi:
+        "Jaminan Kecelakaan Kerja (JKK) adalah perlindungan berupa pelayanan kesehatan dan santunan uang tunai dari BPJS Ketenagakerjaan bagi pekerja yang mengalami kecelakaan saat bekerja, dalam perjalanan berangkat atau pulang kerja, perjalanan dinas, atau menderita penyakit akibat lingkungan kerja.",
+      icon: "shield-plus",
+      kriteriaJudul: "Dokumen Klaim",
+      kriteriaKonten: `<ul>
+        <li>Kartu peserta BPJS Ketenagakerjaan</li>
+        <li>Fotokopi E-KTP tenaga kerja dan ahli waris</li>
+        <li>Akta kematian</li>
+        <li>Fotokopi Kartu Keluarga</li>
+        <li>Surat Keterangan ahli waris dari pejabat yang berwenang</li>
+        <li>Buku Nikah (apabila ahli waris merupakan istri/suami sah peserta)</li>
+        <li>Dokumen pendukung lainnya apabila diperlukan</li>
+      </ul>`,
     },
     {
       kode: "JP",
       nama: "Jaminan Pensiun (JP)",
-      deskripsi: "Program berkala yang bertujuan mempertahankan derajat kehidupan yang layak saat peserta memasuki usia pensiun atau mengalami cacat total.",
+      deskripsi:
+        "Jaminan Pensiun (JP) adalah program BPJS Ketenagakerjaan yang memberi uang tunai bulanan demi menjaga hidup layak di masa tua, saat cacat tetap, atau bagi ahli waris. Iurannya sebesar 3% dari upah (2% pemberi kerja, 1% pekerja). Batas usia pensiun saat ini adalah 59 tahun.",
       icon: "user-check",
-      kriteria: ["Usia pensiun tercapai", "Cacat total tetap", "Peserta meninggal dunia (untuk ahli waris)", "Minimal masa iur 15 tahun"],
+      kriteriaJudul: "Kriteria Pengajuan Klaim",
+      kriteriaKonten: `<p>Peserta yang memenuhi ketentuan dapat mengajukan klaim melalui Layanan Klaim Di Kantor Cabang BPJAMSOSTEK dengan kondisi penerima manfaat, di antaranya:</p>
+      <ul>
+        <li>Mencapai Usia Pensiun; dan</li>
+        <li>Mengalami Cacat Total Tetap</li>
+      </ul>
+      <p>Pengajuan dapat dilakukan dengan mengunggah dokumen ke dalam portal layanan klaim berbasis website atau elektronik.</p>`,
     },
     {
       kode: "JKP",
       nama: "Jaminan Kehilangan Pekerjaan (JKP)",
-      deskripsi: "Memberikan manfaat berupa uang tunai, akses informasi pasar kerja, dan pelatihan kerja bagi pekerja yang mengalami pemutusan hubungan kerja (PHK).",
+      deskripsi:
+        "Jaminan Kehilangan Pekerjaan (JKP) adalah program BPJS Ketenagakerjaan yang memberi manfaat uang tunai, akses informasi pasar kerja, dan pelatihan kerja bagi peserta yang mengalami pemutusan hubungan kerja (PHK).",
       icon: "briefcase",
-      kriteria: ["Mengalami PHK", "Belum mendapat pekerjaan baru", "Kepesertaan aktif minimal 12 bulan", "Bersedia bekerja kembali"],
+      kriteriaJudul: "Kriteria Peserta Penerima Jaminan Kehilangan Pekerjaan (JKP)",
+      kriteriaKonten: `<ul>
+        <li>Peserta yang mengalami PHK baik untuk hubungan kerja berdasarkan perjanjian kerja waktu tidak tertentu maupun perjanjian kerja waktu tertentu (PP No. 37 Tahun 2021 Pasal 19 ayat 1) Pemutusan hubungan kerja yang dikecualikan sebagai berikut:
+          <ol>
+            <li>mengundurkan diri</li>
+            <li>cacat total tetap</li>
+            <li>pensiun atau</li>
+            <li>meninggal dunia</li>
+          </ol>
+        </li>
+        <li>Peserta memiliki masa iur paling sedikit 12 bulan dalam 24 bulan.</li>
+        <li>Peserta berkeinginan bekerja kembali.</li>
+      </ul>`,
     },
   ];
 
   for (let i = 0; i < programUtama.length; i++) {
     const p = programUtama[i];
-    const layanan = await prisma.layanan.upsert({
+    await prisma.layanan.upsert({
       where: { kode: p.kode },
-      update: {},
+      update: {
+        nama: p.nama,
+        deskripsi: p.deskripsi,
+        icon: p.icon,
+        kriteriaJudul: p.kriteriaJudul,
+        kriteriaKonten: p.kriteriaKonten,
+      },
       create: {
         kode: p.kode,
         nama: p.nama,
@@ -123,11 +171,9 @@ async function main() {
         icon: p.icon,
         kategori: LayananKategori.PROGRAM_UTAMA,
         urutan: i + 1,
+        kriteriaJudul: p.kriteriaJudul,
+        kriteriaKonten: p.kriteriaKonten,
       },
-    });
-    await prisma.kriteriaKlaim.deleteMany({ where: { layananId: layanan.id } });
-    await prisma.kriteriaKlaim.createMany({
-      data: p.kriteria.map((teks, idx) => ({ layananId: layanan.id, teks, urutan: idx + 1 })),
     });
   }
 
@@ -172,47 +218,91 @@ async function main() {
 
   // ---------------- Galeri ----------------
   await prisma.galeri.deleteMany();
-  const kategoriList: GaleriKategori[] = ["KINERJA_UTAMA", "CAPAIAN", "AKTIVITAS"];
-  for (const kategori of kategoriList) {
-    await prisma.galeri.createMany({
-      data: Array.from({ length: 6 }).map((_, i) => ({
-        keterangan: "BPJS Ketenagakerjaan Yogyakarta Cairkan Klaim Rp303 Miliar Sampai Juli 2022",
-        kategori,
-        foto: `/images/galeri-${(i % 4) + 1}.jpg`,
-        urutan: i + 1,
-      })),
-    });
-  }
+
+  const galeriData: {
+    kategori: GaleriKategori;
+    keterangan: string;
+    foto: string;
+  }[] = [
+    // Kinerja Utama
+    { kategori: "KINERJA_UTAMA", keterangan: "BPJAMSOSTEK: Sebanyak 66.000 pekerja informal DIY aktif sebagai peserta", foto: "/images/kinerja1.png" },
+    { kategori: "KINERJA_UTAMA", keterangan: "Cakupan BPJS Ketenagakerjaan di Sleman mencapai 34,53 persen", foto: "/images/kinerja2.png" },
+    { kategori: "KINERJA_UTAMA", keterangan: "BPJS Ketenagakerjaan Dorong Kemandirian Ahli Waris Lewat Rekso Waris", foto: "/images/kinerja3..jpg" },
+    { kategori: "KINERJA_UTAMA", keterangan: "BPJS Ketenagakerjaan CSR Perusahaan Lindungi Pekerja Rentan di DIY", foto: "/images/kinerja4.png" },
+    { kategori: "KINERJA_UTAMA", keterangan: "Sosialisasi BPJS Kesehatan dan BPJS Ketenagakerjaan 2025", foto: "/images/kinerja5.jpg" },
+    { kategori: "KINERJA_UTAMA", keterangan: "BPJS Ketenagakerjaan dorong penerima manfaat kembali berdaya melalui PEKA", foto: "/images/kinerja6.png" },
+
+    // Capaian
+    { kategori: "CAPAIAN", keterangan: "Tahun 2023, BPJS Ketenagakerjaan Kantor Cabang Yogyakarta Bayarkan Manfaat Peserta Rp. 766,12 Miliar", foto: "/images/capaian1.png" },
+    { kategori: "CAPAIAN", keterangan: "Sepanjang 2025, BPJS Ketenagakerjaan Salurkan Klaim Rp1,19 Triliun kepada 113 Ribu Peserta di DIY", foto: "/images/capaian2.png" },
+    { kategori: "CAPAIAN", keterangan: "Klaim BPJS Ketenagakerjaan DIY Tembus Ratusan Miliar, JHT Dominan", foto: "/images/capaian3.jpg" },
+    { kategori: "CAPAIAN", keterangan: "Regional Cakupan BPJS Ketenagakerjaan Pemkot Yogyakarta, Rujukan Bandung Barat", foto: "/images/capaian4.jpeg" },
+    { kategori: "CAPAIAN", keterangan: "Sinergi BPJS Ketenagakerjaan dan KONI DIY, Wujudkan Atlet Berprestasi dan Terlindungi", foto: "/images/capaian5.png" },
+    { kategori: "CAPAIAN", keterangan: "BPJS Ketenagakerjaan lindungi 3.174 mahasiswa KKN UII Yogyakarta", foto: "/images/capaian6.png" },
+
+    // Aktivitas
+    { kategori: "AKTIVITAS", keterangan: "BPJS Ketenagakerjaan Teken Kerja Sama Dengan Kemendes DI Yogyakarta", foto: "/images/aktivitas1.jpg" },
+    { kategori: "AKTIVITAS", keterangan: "BPJS Ketenagakerjaan dan Kejati DIY teken PKS, Perkuat sinergi perlindungan pekerja", foto: "/images/aktivitas2.png" },
+    { kategori: "AKTIVITAS", keterangan: "BPJS Ketenagakerjaan sosialisasikan Program Bersama SBSI DIY", foto: "/images/aktivitas3.png" },
+    { kategori: "AKTIVITAS", keterangan: "BPJS Ketenagakerjaan-Pemda DIY kerja sama kepesertaan tenaga bantu DIY", foto: "/images/aktivitas4.png" },
+    { kategori: "AKTIVITAS", keterangan: "Sosialisasi Perlindungan untuk Pekerja Pariwisata DIY", foto: "/images/aktivitas5.jpg" },
+    { kategori: "AKTIVITAS", keterangan: "Bank BPD DIY Mudahkan Pembayaran Iuran BPJS Ketenagakerjaan", foto: "/images/aktivitas6.jpg" },
+  ];
+
+  await prisma.galeri.createMany({
+    data: galeriData.map((g, i) => ({ ...g, urutan: i + 1 })),
+  });
 
   // ---------------- Kerjasama ----------------
   await prisma.kerjasama.deleteMany();
-  const kerjasamaData: { kategori: KerjasamaKategori; namaPerusahaan: string; deskripsi: string }[] = [
-    { kategori: "PEMERINTAH_DAERAH", namaPerusahaan: "Pemerintah Daerah DIY", deskripsi: "Pemprov DIY/Pemkab/Pemkot, Dinas terkait, Pemerintah Kapanewon/ Kelurahan\nPerluasan kepesertaan, Perlindungan pekerja sektor informal (kelurahan/gampong)" },
-    { kategori: "DUNIA_USAHA", namaPerusahaan: "Perusahaan BUMN/Swasta", deskripsi: "Perusahaan BUMN/Swasta, Asosiasi pengusaha\nAkurasi & pertukaran kepesertaan, CRR & relationship perusahaan, Kepatuhan jaminan sosial, Peningkatan kualitas layanan" },
-    { kategori: "PERGURUAN_TINGGI", namaPerusahaan: "Universitas & Mahasiswa", deskripsi: "Universitas, Mahasiswa, LSM\nEdukasi jaminan sosial melalui KKN & pengabdian masyarakat, Literasi kepesertaan bagi kelompok informal" },
-    { kategori: "KOMUNITAS_PEKERJA", namaPerusahaan: "Komunitas Pekerja & Serikat", deskripsi: "Komunitas pekerja, Ojek online, Ojek, Serikat pekerja\nSosialisasi untuk Melindungi Aktivitas pekerja BPJS, Edukasi dan pendampingan" },
-    { kategori: "MEDIA_DAN_DIGITAL", namaPerusahaan: "Media Lokal & Digital", deskripsi: "Media lokal, Influencer/creator, Kanal digital\nLiterasi jaminan sosial, Publikasi program, Kampanye perlindungan" },
+  const kerjasamaData: {
+    kategori: KerjasamaKategori;
+    judul: string;
+    poinAwal: string[];
+    poinAkhir: string[];
+  }[] = [
+    {
+      kategori: "PEMERINTAH_DAERAH",
+      judul: "PEMERINTAH DAERAH",
+      poinAwal: ["Pemprov DIY/Pemkab/Pemkot", "Dinas terkait", "Pemerintah Kapanewon/ Kelurahan"],
+      poinAkhir: ["Perluasan kepesertaan", "Perlindungan pekerja sektor informal (kelurahan/gampong)"],
+    },
+    {
+      kategori: "DUNIA_USAHA",
+      judul: "DUNIA USAHA",
+      poinAwal: ["Perusahaan BUMN/Swasta", "Asosiasi pengusaha"],
+      poinAkhir: [
+        "Akurasi & pertukaran kepesertaan",
+        "CRR & relationship perusahaan",
+        "Kepatuhan jaminan sosial",
+        "Peningkatan kualitas layanan",
+      ],
+    },
+    {
+      kategori: "PERGURUAN_TINGGI",
+      judul: "PERGURUAN TINGGI",
+      poinAwal: ["Universitas", "Mahasiswa", "LSM"],
+      poinAkhir: [
+        "Edukasi jaminan sosial melalui KKN & pengabdian masyarakat",
+        "Literasi kepesertaan bagi kelompok informal",
+      ],
+    },
+    {
+      kategori: "KOMUNITAS_PEKERJA",
+      judul: "KOMUNITAS PEKERJA",
+      poinAwal: ["Komunitas pekerja", "Ojek online", "Ojek", "Serikat pekerja"],
+      poinAkhir: ["Sosialisasi untuk Melindungi Aktivitas pekerja BPJS", "Edukasi dan pendampingan"],
+    },
+    {
+      kategori: "MEDIA_DAN_DIGITAL",
+      judul: "MEDIA & DIGITAL",
+      poinAwal: ["Media lokal", "Influencer/creator", "Kanal digital"],
+      poinAkhir: ["Literasi jaminan sosial", "Publikasi program", "Kampanye perlindungan"],
+    },
   ];
   await prisma.kerjasama.createMany({
-    data: kerjasamaData.map((k, i) => ({ ...k, foto: `/images/kerjasama-${(i % 3) + 1}.jpg`, urutan: i + 1 })),
+    data: kerjasamaData.map((k, i) => ({ ...k, foto: `/images/beritabpjs.jpg`, urutan: i + 1 })),
   });
-
-  // ---------------- Struktur Organisasi ----------------
-  await prisma.strukturOrganisasi.deleteMany();
-  const kepala = await prisma.strukturOrganisasi.create({
-    data: { nama: "Rudi Susanto", jabatan: "Kepala Kantor Cabang", urutan: 1 },
-  });
-  const bidang = [
-    "Kepala Bidang Kepesertaan Perusahaan",
-    "Kepala Bidang Kepesertaan & Kepatuhan",
-    "Kepala Bidang Pelayanan",
-    "Kepala Bidang Umum & SDM",
-  ];
-  for (let i = 0; i < bidang.length; i++) {
-    await prisma.strukturOrganisasi.create({
-      data: { nama: `Nama Pejabat ${i + 1}`, jabatan: bidang[i], parentId: kepala.id, urutan: i + 1 },
-    });
-  }
 
   console.log("Seed complete. Admin login -> username: admin / password: admin123");
 }

@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body className="bg-white font-sans antialiased">{children}</body>
+      <body className="overflow-x-hidden bg-white font-sans antialiased">{children}</body>
     </html>
   );
 }

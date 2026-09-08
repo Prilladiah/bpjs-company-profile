@@ -1,151 +1,140 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Search, Plus, Pencil, Trash2, ImageIcon } from "lucide-react";
+import { Plus, Pencil, Trash2, Building2 } from "lucide-react";
 import Modal from "@/components/admin/Modal";
-import { KERJASAMA_KATEGORI_LABEL } from "@/lib/utils";
-import type { Kerjasama, KerjasamaKategori } from "@/types";
+import type { KerjasamaLogo } from "@/types";
 
-const EMPTY_FORM = {
-  namaPerusahaan: "",
-  kategori: "PEMERINTAH_DAERAH" as KerjasamaKategori,
-  deskripsi: "",
-  foto: "",
-  urutan: 0,
-};
+const EMPTY_LOGO_FORM = { nama: "", logo: "", link: "", urutan: 0 };
 
 export default function KelolaKerjasamaPage() {
-  const [list, setList] = useState<Kerjasama[]>([]);
-  const [q, setQ] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editing, setEditing] = useState<Kerjasama | null>(null);
-  const [form, setForm] = useState(EMPTY_FORM);
-  const [saving, setSaving] = useState(false);
+  const [logoList, setLogoList] = useState<KerjasamaLogo[]>([]);
+  const [logoLoading, setLogoLoading] = useState(true);
+  const [logoModalOpen, setLogoModalOpen] = useState(false);
+  const [editingLogo, setEditingLogo] = useState<KerjasamaLogo | null>(null);
+  const [logoForm, setLogoForm] = useState(EMPTY_LOGO_FORM);
+  const [savingLogo, setSavingLogo] = useState(false);
 
-  const load = useCallback(async (query = "") => {
-    setLoading(true);
-    const res = await fetch(`/api/kerjasama${query ? `?q=${encodeURIComponent(query)}` : ""}`);
+  const loadLogo = useCallback(async () => {
+    setLogoLoading(true);
+    const res = await fetch("/api/auth/kerjasama_logo");
     const data = await res.json();
-    setList(data.data ?? []);
-    setLoading(false);
+    setLogoList(data.data ?? []);
+    setLogoLoading(false);
   }, []);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    loadLogo();
+  }, [loadLogo]);
 
-  function openAdd() {
-    setEditing(null);
-    setForm(EMPTY_FORM);
-    setModalOpen(true);
+  function openAddLogo() {
+    setEditingLogo(null);
+    setLogoForm({ ...EMPTY_LOGO_FORM, urutan: logoList.length + 1 });
+    setLogoModalOpen(true);
   }
 
-  function openEdit(item: Kerjasama) {
-    setEditing(item);
-    setForm({
-      namaPerusahaan: item.namaPerusahaan,
-      kategori: item.kategori,
-      deskripsi: item.deskripsi ?? "",
-      foto: item.foto ?? "",
+  function openEditLogo(item: KerjasamaLogo) {
+    setEditingLogo(item);
+    setLogoForm({
+      nama: item.nama,
+      logo: item.logo ?? "",
+      link: item.link ?? "",
       urutan: item.urutan,
     });
-    setModalOpen(true);
+    setLogoModalOpen(true);
   }
 
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleUploadLogo(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const fd = new FormData();
     fd.append("file", file);
     const res = await fetch("/api/upload", { method: "POST", body: fd });
     const data = await res.json();
-    if (res.ok) setForm((f) => ({ ...f, foto: data.url }));
+    if (res.ok) setLogoForm((f) => ({ ...f, logo: data.url }));
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmitLogo(e: React.FormEvent) {
     e.preventDefault();
-    setSaving(true);
+    setSavingLogo(true);
     try {
-      const url = editing ? `/api/kerjasama/${editing.id}` : "/api/kerjasama";
-      const method = editing ? "PUT" : "POST";
+      const url = editingLogo
+        ? `/api/auth/kerjasama_logo/${editingLogo.id}`
+        : "/api/auth/kerjasama_logo";
+      const method = editingLogo ? "PUT" : "POST";
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(logoForm),
       });
       if (res.ok) {
-        setModalOpen(false);
-        load(q);
+        setLogoModalOpen(false);
+        loadLogo();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error ?? "Gagal menyimpan logo mitra");
       }
     } finally {
-      setSaving(false);
+      setSavingLogo(false);
     }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm("Hapus kerjasama ini?")) return;
-    await fetch(`/api/kerjasama/${id}`, { method: "DELETE" });
-    load(q);
+  async function handleDeleteLogo(id: string) {
+    if (!confirm("Hapus logo mitra ini?")) return;
+    await fetch(`/api/auth/kerjasama_logo/${id}`, { method: "DELETE" });
+    loadLogo();
   }
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold text-gray-900">Kelola Kerjasama</h1>
+      <h1 className="mb-2 text-2xl font-bold text-gray-900">Kelola Logo Mitra</h1>
+      <p className="mb-6 text-sm text-gray-500">
+        Logo-logo ini tampil sebagai carousel bulat di halaman depan pada bagian Kerjasama Kami.
+      </p>
 
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-          <input
-            value={q}
-            onChange={(e) => {
-              setQ(e.target.value);
-              load(e.target.value);
-            }}
-            placeholder="Cari Galeri"
-            className="w-full rounded-md border border-gray-300 py-2 pl-10 pr-3 text-sm outline-none focus:border-brand-blue"
-          />
-        </div>
-        <button onClick={openAdd} className="btn-primary whitespace-nowrap">
-          <Plus size={18} /> Tambah
+      <div className="mb-4 flex justify-end">
+        <button onClick={openAddLogo} className="btn-primary whitespace-nowrap">
+          <Plus size={18} /> Tambah Logo
         </button>
       </div>
 
-      <div className="overflow-hidden rounded-lg border border-gray-200">
-        <table className="w-full text-left text-sm">
+      <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr className="bg-green-500 text-white">
-              <th className="px-4 py-3 font-semibold">Nama Perusahaan</th>
-              <th className="px-4 py-3 font-semibold">Kategori</th>
-              <th className="px-4 py-3 text-center font-semibold">Foto</th>
+              <th className="px-4 py-3 text-center font-semibold">Logo</th>
+              <th className="px-4 py-3 font-semibold">Nama</th>
+              <th className="px-4 py-3 font-semibold">Link</th>
+              <th className="px-4 py-3 text-center font-semibold">Urutan</th>
               <th className="px-4 py-3 text-center font-semibold">Aksi</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 bg-white">
-            {loading && (
-              <tr><td colSpan={4} className="px-4 py-6 text-center text-gray-400">Memuat...</td></tr>
+            {logoLoading && (
+              <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">Memuat...</td></tr>
             )}
-            {!loading && list.length === 0 && (
-              <tr><td colSpan={4} className="px-4 py-6 text-center text-gray-400">Belum ada data kerjasama</td></tr>
+            {!logoLoading && logoList.length === 0 && (
+              <tr><td colSpan={5} className="px-4 py-6 text-center text-gray-400">Belum ada logo mitra</td></tr>
             )}
-            {list.map((item) => (
+            {logoList.map((item) => (
               <tr key={item.id}>
-                <td className="px-4 py-3">{item.namaPerusahaan}</td>
-                <td className="px-4 py-3">{KERJASAMA_KATEGORI_LABEL[item.kategori]}</td>
                 <td className="px-4 py-3 text-center">
-                  {item.foto ? (
+                  {item.logo ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={item.foto} alt="" className="mx-auto h-8 w-8 rounded object-cover" />
+                    <img src={item.logo} alt={item.nama} className="mx-auto h-10 w-10 rounded-full border object-contain p-1" />
                   ) : (
-                    <ImageIcon className="mx-auto text-gray-300" size={20} />
+                    <Building2 className="mx-auto text-gray-300" size={20} />
                   )}
                 </td>
+                <td className="px-4 py-3">{item.nama}</td>
+                <td className="max-w-[200px] truncate px-4 py-3 text-brand-blue">{item.link || "-"}</td>
+                <td className="px-4 py-3 text-center">{item.urutan}</td>
                 <td className="px-4 py-3">
                   <div className="flex items-center justify-center gap-3">
-                    <button onClick={() => openEdit(item)} className="text-green-600 hover:text-green-800">
+                    <button onClick={() => openEditLogo(item)} className="text-green-600 hover:text-green-800">
                       <Pencil size={18} />
                     </button>
-                    <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700">
+                    <button onClick={() => handleDeleteLogo(item.id)} className="text-red-500 hover:text-red-700">
                       <Trash2 size={18} />
                     </button>
                   </div>
@@ -156,54 +145,49 @@ export default function KelolaKerjasamaPage() {
         </table>
       </div>
 
-      {modalOpen && (
-        <Modal title={editing ? "Edit Kerjasama" : "Tambah Kerjasama"} onClose={() => setModalOpen(false)}>
-          <form onSubmit={handleSubmit} className="space-y-4">
+      {logoModalOpen && (
+        <Modal title={editingLogo ? "Edit Logo Mitra" : "Tambah Logo Mitra"} onClose={() => setLogoModalOpen(false)}>
+          <form onSubmit={handleSubmitLogo} className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-semibold text-gray-700">Nama Perusahaan*</label>
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Nama Mitra*</label>
               <input
                 required
-                value={form.namaPerusahaan}
-                onChange={(e) => setForm({ ...form, namaPerusahaan: e.target.value })}
+                value={logoForm.nama}
+                onChange={(e) => setLogoForm({ ...logoForm, nama: e.target.value })}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-semibold text-gray-700">Kategori*</label>
-              <select
-                required
-                value={form.kategori}
-                onChange={(e) => setForm({ ...form, kategori: e.target.value as KerjasamaKategori })}
-                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
-              >
-                {Object.entries(KERJASAMA_KATEGORI_LABEL).map(([value, label]) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-semibold text-gray-700">Deskripsi</label>
-              <textarea
-                value={form.deskripsi}
-                onChange={(e) => setForm({ ...form, deskripsi: e.target.value })}
-                rows={3}
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Link (opsional)</label>
+              <input
+                value={logoForm.link}
+                onChange={(e) => setLogoForm({ ...logoForm, link: e.target.value })}
                 className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-semibold text-gray-700">Foto</label>
-              <input type="file" accept="image/*" onChange={handleUpload} className="text-sm" />
-              {form.foto && (
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Urutan</label>
+              <input
+                type="number"
+                value={logoForm.urutan}
+                onChange={(e) => setLogoForm({ ...logoForm, urutan: Number(e.target.value) })}
+                className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
+              />
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-semibold text-gray-700">Logo*</label>
+              <input type="file" accept="image/*" onChange={handleUploadLogo} className="text-sm" />
+              {logoForm.logo && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={form.foto} alt="preview" className="mt-2 h-40 w-full rounded-md object-cover" />
+                <img src={logoForm.logo} alt="preview" className="mt-2 h-20 w-20 rounded-full border object-contain p-2" />
               )}
             </div>
             <div className="flex justify-end gap-3 pt-2">
-              <button type="button" onClick={() => setModalOpen(false)} className="btn-secondary">
+              <button type="button" onClick={() => setLogoModalOpen(false)} className="btn-secondary">
                 Batal
               </button>
-              <button type="submit" disabled={saving} className="btn-primary">
-                {saving ? "Menyimpan..." : "Simpan"}
+              <button type="submit" disabled={savingLogo} className="btn-primary">
+                {savingLogo ? "Menyimpan..." : "Simpan"}
               </button>
             </div>
           </form>

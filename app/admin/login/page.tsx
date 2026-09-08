@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LogIn } from "lucide-react";
+import Image from "next/image";
 
 function LoginForm() {
   const router = useRouter();
@@ -37,36 +38,57 @@ function LoginForm() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-brand-blue-light px-4">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm rounded-xl bg-white p-8 shadow-card">
-        <div className="mb-6 text-center">
-          <p className="text-xl font-bold text-brand-blue">
-            BPJS <span className="text-brand-green">Ketenagakerjaan</span>
-          </p>
-          <p className="text-xs font-semibold uppercase text-gray-400">Admin Panel · Yogyakarta</p>
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm rounded-2xl bg-white p-8 shadow-xl ring-1 ring-black/5"
+      >
+        <div className="mb-8 flex flex-col items-center">
+          <Image
+            src="/images/logobpjs.png"
+            alt="BPJS Ketenagakerjaan"
+            width={220}
+            height={60}
+            className="h-auto w-48"
+            priority
+          />
         </div>
 
         {error && (
-          <p className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>
+          <p className="mb-4 rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">
+            {error}
+          </p>
         )}
 
-        <label className="mb-1 block text-sm font-semibold text-gray-700">Username</label>
-        <input
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          className="mb-4 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
-        />
+        <div className="mb-4">
+          <label className="mb-1 block text-sm font-semibold text-gray-700">
+            Username
+          </label>
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+          />
+        </div>
 
-        <label className="mb-1 block text-sm font-semibold text-gray-700">Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="mb-6 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-brand-blue"
-        />
+        <div className="mb-6">
+          <label className="mb-1 block text-sm font-semibold text-gray-700">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20"
+          />
+        </div>
 
-        <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary w-full justify-center gap-2 rounded-lg py-2.5 transition disabled:cursor-not-allowed disabled:opacity-60"
+        >
           <LogIn size={18} />
           {loading ? "Memproses..." : "Masuk"}
         </button>

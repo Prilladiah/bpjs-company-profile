@@ -24,3 +24,14 @@ export const KERJASAMA_KATEGORI_LABEL: Record<string, string> = {
   KOMUNITAS_PEKERJA: "Komunitas & Pekerja",
   MEDIA_DAN_DIGITAL: "Media dan Digital",
 };
+
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
