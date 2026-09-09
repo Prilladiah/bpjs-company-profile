@@ -44,7 +44,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={cn(
-                  "text-base font-medium text-gray-700 transition hover:text-brand-green",
+                  "text-sm font-medium text-gray-700 transition hover:text-brand-green",
                   pathname === link.href && "text-brand-green"
                 )}
               >
@@ -73,7 +73,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "block rounded-md px-3 py-2 text-base font-medium text-gray-700 hover:bg-brand-blue-light",
+                  "block rounded-md px-3 py-2 text-sm font-medium text-gray-700 hover:bg-brand-blue-light",
                   pathname === link.href && "text-brand-green"
                 )}
               >
