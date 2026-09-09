@@ -3,7 +3,7 @@ import type { SiteSettings } from "@/types";
 const DEFAULT_SETTINGS: SiteSettings = {
   alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
   kontak: "175",
-  email: "Kacab.yogyakarta@bpjsketenagakerjaan.go.id",
+  email: "kacab.yogyakarta@bpjsketenagakerjaan.go.id",
   jamKerja: "Senin - Jumat : 08.00 - 15.00",
   namaKantor: "BPJS Ketenagakerjaan Kantor Cabang Yogyakarta",
   logoUrl: null,
@@ -47,10 +47,22 @@ export default function Footer({ settings = DEFAULT_SETTINGS }: { settings?: Sit
         </div>
 
         <div>
-          <h3 className="mb-2 text-lg font-bold text-brand-lime">Contact</h3>
-          <p className="text-sm text-gray-100">{settings.kontak}</p>
+        <h3 className="mb-2 text-lg font-bold text-brand-lime">Contact</h3>
+          <a
+            href={`tel:${settings.kontak}`}
+            className="text-sm text-gray-100 underline decoration-gray-400 underline-offset-2 transition hover:text-white"
+          >
+            {settings.kontak}
+          </a>
           <h3 className="mb-2 mt-4 text-lg font-bold text-brand-lime">Email</h3>
-          <p className="text-sm text-gray-100">{settings.email}</p>
+          <a
+            href={`https://mail.google.com/mail/?view=cm&fs=1&to=${settings.email}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-gray-100 underline decoration-gray-400 underline-offset-2 transition hover:text-white"
+          >
+          {settings.email}
+        </a>
         </div>
 
         <div>

@@ -5,17 +5,22 @@ const prisma = new PrismaClient();
 
 async function main() {
   // ---------------- Admin ----------------
-  const passwordHash = await bcrypt.hash("admin123", 10);
+  const passwordHash = await bcrypt.hash("Yogyakarta@BPJS00", 10);
   await prisma.admin.upsert({
-    where: { username: "admin" },
-    update: {},
-    create: {
-      username: "admin",
-      password: passwordHash,
-      name: "Administrator BPJS Yogyakarta",
-      role: "SUPERADMIN",
-    },
-  });
+  where: { username: "bpjsyogyakarta" },
+  update: {
+    username: "bpjsyogyakarta",
+    password: passwordHash,
+    name: "Administrator BPJS Yogyakarta",
+    role: "SUPERADMIN",
+  },
+  create: {
+    username: "bpjsyogyakarta",
+    password: passwordHash,
+    name: "Administrator BPJS Yogyakarta",
+    role: "SUPERADMIN",
+  },
+});
 
   // ---------------- Site settings ----------------
   await prisma.siteSettings.upsert({
@@ -25,7 +30,7 @@ async function main() {
       id: "settings",
       alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
       kontak: "(0274) 000000",
-      email: "Kacab.yogyakarta@bpjsketenagakerjaan.go.id",
+      email: "kacab.yogyakarta@bpjsketenagakerjaan.go.id",
       jamKerja: "Senin - Jumat : 08.00 - 15.00",
     },
   });
@@ -206,14 +211,74 @@ async function main() {
   });
 
   // ---------------- Berita ----------------
+  // ---------------- Berita ----------------
   await prisma.berita.deleteMany();
   await prisma.berita.createMany({
-    data: Array.from({ length: 4 }).map((_, i) => ({
-      keterangan: "BPJS Ketenagakerjaan sosialisasi perlindungan pada pengemudi ojol.",
-      tanggal: new Date("2026-08-18"),
-      link: "https://bpjsketenagakerjaan.go.id/berita/perlindungan-pengemudi-ojol",
-      foto: `/images/berita-${(i % 3) + 1}.jpg`,
-    })),
+    data: [
+      {
+        keterangan: "BPJS Ketenagakerjaan Yogyakarta dan PT SGM dorong MLT perumahan pekerja",
+        tanggal: new Date("2026-08-07"),
+        link: "https://jogja.antaranews.com/berita/846797/bpjs-ketenagakerjaan-yogyakarta-dan-pt-sgm-dorong-mlt-perumahan-pekerja",
+        foto: "/images/berita1.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "Pekerja Lebih Sejahtera, BPJS Ketenagakerjaan Jogja Perkuat Kolaborasi",
+        tanggal: new Date("2026-08-07"),
+        link: "https://news.harianjogja.com/r-1266436/pekerja-lebih-sejahtera-bpjs-ketenagakerjaan-jogja-perkuat-kolaborasi",
+        foto: "/images/berita1.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "BPJS Ketenagakerjaan gandeng Tepo Seliro lindungi pelaku usaha Jogja",
+        tanggal: new Date("2026-08-08"),
+        link: "https://jogja.antaranews.com/berita/846907/bpjs-ketenagakerjaan-gandeng-tepo-seliro-lindungi-pelaku-usaha-jogja",
+        foto: "/images/berita3.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "Gandeng Komunitas Malioboro, BPJS Ketenagakerjaan Perluas Perlindungan",
+        tanggal: new Date("2026-08-08"),
+        link: "https://jogjapolitan.harianjogja.com/r-1266833/gandeng-komunitas-malioboro-bpjs-ketenagakerjaan-perluas-perlindungan",
+        foto: "/images/berita3.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "Diterjunkan ke Masyarakat, Mahasiswa KKN UII Dilindungi BPJS Ketenagakerjaan",
+        tanggal: new Date("2026-08-11"),
+        link: "https://www.krjogja.com/kampus/1247485848/diterjunkan-ke-masyarakat-mahasiswa-kkn-uii-dilindungi-bpjs-ketenagakerjaan",
+        foto: "/images/berita5.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "3.174 Mahasiswa UII KKN, Semua Dapat Perlindungan BPJS Ketenagakerjaan",
+        tanggal: new Date("2026-08-11"),
+        link: "https://news.harianjogja.com/r-1266931/3174-mahasiswa-uii-kkn-semua-dapat-perlindungan-bpjs-ketenagakerjaan",
+        foto: "/images/berita5.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "BPJS Ketenagakerjaan lindungi 3.174 mahasiswa KKN UII Yogyakarta",
+        tanggal: new Date("2026-08-11"),
+        link: "https://jogja.antaranews.com/berita/847492/bpjs-ketenagakerjaan-lindungi-3174-mahasiswa-kkn-uii-yogyakarta",
+        foto: "/images/berita5.png",
+        isPublished: true,
+      },
+      {
+        keterangan: "Dari Persoalan Lingkungan, Tumbuh Sebuah Gerakan yang Memberi Manfaat Bagi Masyarakat",
+        tanggal: new Date("2026-08-13"),
+        link: "https://www.krjogja.com/bantul/1247488779/dari-persoalan-lingkungan-tumbuh-sebuah-gerakan-yang-memberi-manfaat-bagi-masyarakat",
+        foto: "/images/beritabpjs.jpg",
+        isPublished: true,
+      },
+      {
+        keterangan: "Olah Sampah Jadi Energi, Pekerja GO-SARI Kini Dilindungi BPJamsostek",
+        tanggal: new Date("2026-08-15"),
+        link: "https://jogjapolitan.harianjogja.com/r-1267376/olah-sampah-jadi-energi-pekerja-go-sari-kini-dilindungi-bpjamsostek",
+        foto: "/images/beritabpjs.jpg",
+        isPublished: true,
+      },
+    ],
   });
 
   // ---------------- Galeri ----------------
@@ -261,44 +326,6 @@ async function main() {
     poinAwal: string[];
     poinAkhir: string[];
   }[] = [
-    {
-      kategori: "PEMERINTAH_DAERAH",
-      judul: "PEMERINTAH DAERAH",
-      poinAwal: ["Pemprov DIY/Pemkab/Pemkot", "Dinas terkait", "Pemerintah Kapanewon/ Kelurahan"],
-      poinAkhir: ["Perluasan kepesertaan", "Perlindungan pekerja sektor informal (kelurahan/gampong)"],
-    },
-    {
-      kategori: "DUNIA_USAHA",
-      judul: "DUNIA USAHA",
-      poinAwal: ["Perusahaan BUMN/Swasta", "Asosiasi pengusaha"],
-      poinAkhir: [
-        "Akurasi & pertukaran kepesertaan",
-        "CRR & relationship perusahaan",
-        "Kepatuhan jaminan sosial",
-        "Peningkatan kualitas layanan",
-      ],
-    },
-    {
-      kategori: "PERGURUAN_TINGGI",
-      judul: "PERGURUAN TINGGI",
-      poinAwal: ["Universitas", "Mahasiswa", "LSM"],
-      poinAkhir: [
-        "Edukasi jaminan sosial melalui KKN & pengabdian masyarakat",
-        "Literasi kepesertaan bagi kelompok informal",
-      ],
-    },
-    {
-      kategori: "KOMUNITAS_PEKERJA",
-      judul: "KOMUNITAS PEKERJA",
-      poinAwal: ["Komunitas pekerja", "Ojek online", "Ojek", "Serikat pekerja"],
-      poinAkhir: ["Sosialisasi untuk Melindungi Aktivitas pekerja BPJS", "Edukasi dan pendampingan"],
-    },
-    {
-      kategori: "MEDIA_DAN_DIGITAL",
-      judul: "MEDIA & DIGITAL",
-      poinAwal: ["Media lokal", "Influencer/creator", "Kanal digital"],
-      poinAkhir: ["Literasi jaminan sosial", "Publikasi program", "Kampanye perlindungan"],
-    },
   ];
   await prisma.kerjasama.createMany({
     data: kerjasamaData.map((k, i) => ({ ...k, foto: `/images/beritabpjs.jpg`, urutan: i + 1 })),

@@ -17,14 +17,6 @@ export const GALERI_KATEGORI_LABEL: Record<string, string> = {
   AKTIVITAS: "Aktivitas",
 };
 
-export const KERJASAMA_KATEGORI_LABEL: Record<string, string> = {
-  PEMERINTAH_DAERAH: "Pemerintah Daerah",
-  DUNIA_USAHA: "Dunia Usaha",
-  PERGURUAN_TINGGI: "Perguruan Tinggi",
-  KOMUNITAS_PEKERJA: "Komunitas & Pekerja",
-  MEDIA_DAN_DIGITAL: "Media dan Digital",
-};
-
 export function slugify(text: string): string {
   return text
     .toLowerCase()
