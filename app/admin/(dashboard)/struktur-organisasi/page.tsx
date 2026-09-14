@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { UploadCloud, FileText } from "lucide-react";
+import { UploadCloud, FileText, CheckCircle2, XCircle } from "lucide-react";
 import type { StrukturOrganisasiFile } from "@/types";
+
+type ToastState = { type: "success" | "error"; message: string } | null;
 
 export default function StrukturOrganisasiPage() {
   const [data, setData] = useState<StrukturOrganisasiFile | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [toast, setToast] = useState<ToastState>(null);
 
   useEffect(() => {
     fetch("/api/struktur-organisasi")
@@ -16,6 +19,13 @@ export default function StrukturOrganisasiPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  // Toast otomatis hilang setelah 3 detik
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -23,7 +33,7 @@ export default function StrukturOrganisasiPage() {
     const isPdf = file.type === "application/pdf";
     const isImage = file.type.startsWith("image/");
     if (!isPdf && !isImage) {
-      alert("File harus berupa gambar (PNG/JPG) atau PDF");
+      setToast({ type: "error", message: "File harus berupa gambar (PNG/JPG) atau PDF" });
       e.target.value = "";
       return;
     }
@@ -33,11 +43,15 @@ export default function StrukturOrganisasiPage() {
       const fd = new FormData();
       fd.append("file", file);
       const uploadRes = await fetch("/api/upload", { method: "POST", body: fd });
-      const uploadData = await uploadRes.json();
+
       if (!uploadRes.ok) {
-        alert(uploadData.error ?? "Gagal mengunggah file");
+        const text = await uploadRes.text();
+        console.error("Upload gagal, response mentah:", text);
+        setToast({ type: "error", message: `Gagal mengunggah file (status ${uploadRes.status})` });
         return;
       }
+
+      const uploadData = await uploadRes.json();
 
       const saveRes = await fetch("/api/struktur-organisasi", {
         method: "PUT",
@@ -45,7 +59,16 @@ export default function StrukturOrganisasiPage() {
         body: JSON.stringify({ fileUrl: uploadData.url, fileType: isPdf ? "pdf" : "image" }),
       });
       const saveData = await saveRes.json();
-      if (saveRes.ok) setData(saveData.data);
+
+      if (saveRes.ok) {
+        setData(saveData.data);
+        setToast({ type: "success", message: "Gambar struktur organisasi berhasil diunggah!" });
+      } else {
+        setToast({ type: "error", message: saveData.error ?? "Gagal menyimpan data struktur organisasi" });
+      }
+    } catch (err) {
+      console.error("Error saat upload:", err);
+      setToast({ type: "error", message: "Terjadi kesalahan saat mengunggah file" });
     } finally {
       setUploading(false);
       e.target.value = "";
@@ -105,6 +128,24 @@ export default function StrukturOrganisasiPage() {
           </div>
         )}
       </div>
+
+      {/* Toast Notification */}
+      {toast && (
+        <div
+          className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-lg px-4 py-3 shadow-lg transition-all ${
+            toast.type === "success"
+              ? "bg-green-600 text-white"
+              : "bg-red-600 text-white"
+          }`}
+        >
+          {toast.type === "success" ? (
+            <CheckCircle2 size={20} />
+          ) : (
+            <XCircle size={20} />
+          )}
+          <span className="text-sm font-medium">{toast.message}</span>
+        </div>
+      )}
     </div>
   );
 }

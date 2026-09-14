@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 const SINGLETON_ID = "struktur";
 
 export async function GET() {
-  const data = await prisma.strukturOrganisasiFile.findUnique({ where: { id: SINGLETON_ID } });
+  const data = await prisma.strukturOrganisasiFile.findUnique({
+    where: { id: SINGLETON_ID },
+  });
+
   return NextResponse.json({ data });
 }
 
@@ -21,6 +25,8 @@ export async function PUT(req: NextRequest) {
     update: { fileUrl, fileType: fileType ?? "image" },
     create: { id: SINGLETON_ID, fileUrl, fileType: fileType ?? "image" },
   });
+
+  revalidatePath("/tentang-kami");
 
   return NextResponse.json({ data });
 }
