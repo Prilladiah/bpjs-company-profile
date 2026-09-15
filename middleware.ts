@@ -14,12 +14,21 @@ async function isValidToken(token: string | undefined) {
   }
 }
 
+function withNoStore(res: NextResponse) {
+  res.headers.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.headers.set("Pragma", "no-cache");
+  res.headers.set("Expires", "0");
+  return res;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Public admin route: the login page itself
   if (pathname.startsWith("/admin/login")) {
-    return NextResponse.next();
+    return withNoStore(NextResponse.next());
   }
 
   if (pathname.startsWith("/admin")) {
@@ -28,8 +37,9 @@ export async function middleware(request: NextRequest) {
     if (!valid) {
       const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
-      return NextResponse.redirect(loginUrl);
+      return withNoStore(NextResponse.redirect(loginUrl));
     }
+    return withNoStore(NextResponse.next());
   }
 
   return NextResponse.next();
