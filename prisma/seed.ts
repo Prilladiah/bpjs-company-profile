@@ -31,7 +31,7 @@ async function main() {
       alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
       kontak: "(0274) 000000",
       email: "kacab.yogyakarta@bpjsketenagakerjaan.go.id",
-      jamKerja: "Senin - Jumat : 08.00 - 15.00",
+      jamKerja: "Senin - Jumat : 08.00 - 15.30",
     },
   });
 

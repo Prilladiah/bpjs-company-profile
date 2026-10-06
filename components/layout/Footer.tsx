@@ -2,9 +2,9 @@ import type { SiteSettings } from "@/types";
 
 const DEFAULT_SETTINGS: SiteSettings = {
   alamat: "Jl. Urip Sumoharjo No.106, Klitren, Kec. Gondokusuman, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55222",
-  kontak: "175",
+  kontak: "081141702268",
   email: "kacab.yogyakarta@bpjsketenagakerjaan.go.id",
-  jamKerja: "Senin - Jumat : 08.00 - 15.00",
+  jamKerja: "Senin - Jumat : 08.00 - 15.30",
   namaKantor: "BPJS Ketenagakerjaan Kantor Cabang Yogyakarta",
   logoUrl: null,
   instagramUrl: "https://www.instagram.com/dulureworker.yk/",

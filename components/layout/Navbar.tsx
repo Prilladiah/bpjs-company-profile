@@ -44,7 +44,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={cn(
-                  "text-sm font-medium text-gray-700 transition hover:text-brand-green",
+                  "text-sm font-semibold text-gray-600 transition hover:text-brand-green",
                   pathname === link.href && "text-brand-green"
                 )}
               >

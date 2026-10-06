@@ -11,7 +11,6 @@ async function getData() {
 
 // Tinggal ganti "src" di bawah ini dengan path gambar yang kamu mau.
 // Taruh SEMUA file gambar Program Unggulan di satu folder: public/images/unggulan/
-// Taruh SEMUA file gambar Program Unggulan di satu folder: public/images/unggulan/
 // "scale"   = kontrol besar-kecil gambar (1 = normal, >1 diperbesar, <1 diperkecil)
 // "offsetY" = kontrol naik/turun gambar dalam px (negatif = naik, positif = turun)
 // Ubah angkanya lalu cek hasilnya di browser, ulangi sampai semua sejajar & sama besar.
@@ -55,14 +54,6 @@ const PROGRAM_UNGGULAN = [
     desc: "Memberikan perlindungan kepada pekerja di sekitar wilayah kerja untuk kesejahteraan bersama.",
     scale: 1.9,
     offsetY: -1,
-  },
-  {
-    no: 6,
-    src: "/images/6PUL.png",
-    judul: "GARWA SURGA",
-    desc: "",
-    scale: 1.9,
-    offsetY: 0,
   },
 ];
 
@@ -136,30 +127,38 @@ export default async function LayananPage() {
       <Navbar />
       <main className="bg-brand-blue-light/30">
         {/* Program Unggulan */}
-      <section className="mx-auto max-w-6xl px-4 py-12 text-center md:px-8">
-        <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
-          Program Unggulan &amp; Layanan BPJS
-        </h2>
-        <div className="mb-8 mt-6 flex items-center justify-center gap-2">
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
-          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
-        </div>
+        <section className="mx-auto max-w-6xl px-4 py-12 text-center md:px-8">
+          <h2 className="text-2xl font-bold text-gray-900 md:text-3xl">
+            Program Unggulan &amp; Layanan BPJS
+          </h2>
+          <div className="mb-8 mt-6 flex items-center justify-center gap-2">
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kiri */}
+            <div className="h-2 w-2 rounded-full bg-[#68B545]" /> {/* bulat hijau tengah */}
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kanan */}
+          </div>
           <p className="mt-1 text-sm text-gray-500">
             Bergerak Melampaui Layanan, Menciptakan Dampak.
           </p>
 
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
+          {/*
+            Pakai flex-wrap + justify-center (bukan grid) supaya 5 kartu
+            selalu berada di tengah, termasuk baris terakhir yang tidak penuh.
+            Lebar kartu diatur lewat calc():
+            - mobile : 2 kartu per baris
+            - sm     : 3 kartu per baris
+            - md     : 5 kartu per baris (1 baris penuh)
+            Kalau mau kartu lebih lebar di desktop, ubah md:w-[calc(20%-0.8rem)].
+          */}
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             {PROGRAM_UNGGULAN.map((p) => (
               <div
                 key={p.no}
-                className="flex h-full flex-col items-center rounded-xl border-2 border-brand-blue/30 bg-white p-4 text-center shadow-sm transition hover:border-brand-blue hover:shadow-md"
+                className="flex w-[calc(50%-0.5rem)] flex-col items-center rounded-xl border-2 border-brand-blue/30 bg-white p-4 text-center shadow-sm transition hover:border-brand-blue hover:shadow-md sm:w-[calc(33.333%-0.667rem)] md:w-[calc(20%-0.8rem)]"
               >
                 {/*
-                  Kotak ikon dikunci ukuran TETAP (h-20 w-20) dan diberi padding (p-3)
-                  supaya semua gambar—apa pun ukuran aslinya—tampil dengan bobot visual
-                  yang sama (tidak ada yang terlihat lebih besar/kecil dari yang lain).
-                  Ganti ukuran di className "h-20 w-20" kalau mau ubah ukuran kotak ikon.
+                  Kotak ikon dikunci ukuran TETAP (h-20 w-20) supaya semua gambar
+                  tampil dengan bobot visual yang sama.
+                  Ganti "h-20 w-20" kalau mau ubah ukuran kotak ikon.
                 */}
                 <div className="mb-3 flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -175,8 +174,7 @@ export default async function LayananPage() {
 
                 {/*
                   Badge nomor: aspect-square + shrink-0 memastikan lingkaran selalu
-                  bulat sempurna dan sejajar (tidak "miring") di semua ukuran layar,
-                  karena sebelumnya bisa terkompres jadi oval saat grid menyempit.
+                  bulat sempurna di semua ukuran layar.
                 */}
                 <span className="mb-2 flex aspect-square h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-brand-blue text-xs font-bold leading-none text-white">
                   {p.no}
@@ -196,11 +194,11 @@ export default async function LayananPage() {
           <h2 className="section-title mx-auto mb-8 block w-fit text-center">
             Program Utama BPJS Yogyakarta
           </h2>
-        <div className="mb-8 mt-4 flex items-center justify-center gap-2">
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
-          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
-        </div>
+          <div className="mb-8 mt-4 flex items-center justify-center gap-2">
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kiri */}
+            <div className="h-2 w-2 rounded-full bg-[#68B545]" /> {/* bulat hijau tengah */}
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kanan */}
+          </div>
           <div className="space-y-4 rounded-xl bg-brand-blue-light p-6">
             {PROGRAM_UTAMA.map((l) => (
               <div
@@ -231,11 +229,11 @@ export default async function LayananPage() {
           <h2 className="section-title mx-auto mb-8 block w-fit text-center">
             Layanan BPJS Yogyakarta
           </h2>
-        <div className="mb-8 mt-4 flex items-center justify-center gap-2">
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kiri */}
-          <div className="h-2 w-2 rounded-full bg-[#68B545]" />         {/* bulat hijau tengah */}
-          <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" />   {/* garis biru kanan */}
-        </div>
+          <div className="mb-8 mt-4 flex items-center justify-center gap-2">
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kiri */}
+            <div className="h-2 w-2 rounded-full bg-[#68B545]" /> {/* bulat hijau tengah */}
+            <div className="h-[2px] w-20 rounded-full bg-[#0057A8]" /> {/* garis biru kanan */}
+          </div>
           <div className="space-y-4 rounded-xl bg-brand-blue-light p-6">
             {LAYANAN_BPJS.map((l) => (
               <div
