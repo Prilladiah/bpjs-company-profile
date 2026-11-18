@@ -57,37 +57,43 @@ const PROGRAM_UNGGULAN = [
   },
 ];
 
-// Program Utama BPJS (5 program) — taruh gambar di: public/images/program-utama/
+// Program Utama BPJS (5 program) — taruh gambar di: public/images/
+// "scale" = besar-kecil ikon (1 = normal, >1 diperbesar). Atur angkanya sambil cek di browser.
 const PROGRAM_UTAMA = [
   {
     no: 1,
     src: "/images/JKK.png",
     judul: "Jaminan Kecelakaan Kerja (JKK)",
     desc: "Memberikan perlindungan dan biaya pengobatan atas risiko kecelakaan kerja atau penyakit akibat kerja.",
+    scale: 1.2,
   },
   {
     no: 2,
     src: "/images/JKM.png",
     judul: "Jaminan Kematian (JKM)",
     desc: "Memberikan santunan dan manfaat uang tunai kepada ahli waris ketika peserta meninggal dunia bukan karena kecelakaan kerja.",
+    scale: 1.2,
   },
   {
     no: 3,
     src: "/images/JHT.png",
     judul: "Jaminan Hari Tua (JHT)",
     desc: "Program tabungan jangka panjang di mana uang tunai akan dibayarkan sekaligus saat peserta memasuki usia pensiun, mengalami cacat total, atau meninggal dunia.",
+    scale: 1.8, // paling kecil di file aslinya, jadi diperbesar paling banyak
   },
   {
     no: 4,
     src: "/images/JP.png",
     judul: "Jaminan Pensiun (JP)",
     desc: "Program berkala yang bertujuan mempertahankan derajat kehidupan yang layak saat peserta memasuki usia pensiun atau mengalami cacat total.",
+    scale: 1.1,
   },
   {
     no: 5,
     src: "/images/JKP.png",
     judul: "Jaminan Kehilangan Pekerjaan (JKP)",
     desc: "Memberikan manfaat berupa uang tunai, akses informasi pasar kerja, dan pelatihan kerja bagi pekerja yang mengalami pemutusan hubungan kerja (PHK).",
+    scale: 1.1,
   },
 ];
 
@@ -205,7 +211,7 @@ export default async function LayananPage() {
                 key={l.no}
                 className="flex items-start gap-4 rounded-lg bg-white p-4 shadow-card"
               >
-                <div className="flex h-[80px] w-[80px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-100 bg-white p-2 shadow-sm">
+                <div className="flex h-[80px] w-[80px] flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-gray-100 bg-white p-1 shadow-sm">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={l.src}
@@ -213,6 +219,7 @@ export default async function LayananPage() {
                     width={80}
                     height={80}
                     className="h-full w-full object-contain"
+                    style={{ transform: `scale(${l.scale ?? 1})` }}
                   />
                 </div>
                 <div>

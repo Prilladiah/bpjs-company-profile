@@ -113,13 +113,15 @@ export default function TestimoniRotator({ items }: { items: KerjasamaTestimoni[
     <div className="mt-6 rounded-lg bg-gray-50 px-4 py-6 text-center sm:px-8">
       {isDemo ? (
         <>
-          <p className="text-sm italic leading-relaxed text-gray-600">{RS_INTRO}</p>
+          <p className="mx-auto max-w-3xl text-sm leading-relaxed text-gray-600 sm:text-base">
+            {RS_INTRO}
+          </p>
 
-          <div className="mx-auto mt-4 flex max-w-4xl flex-wrap justify-center gap-1.5">
+          <div className="mx-auto mt-5 flex max-w-4xl flex-wrap justify-center gap-2">
             {visibleList.map((rs) => (
               <span
                 key={rs}
-                className="rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-gray-800 shadow-sm ring-1 ring-gray-200 sm:text-xs"
+                className="rounded-full bg-white px-3.5 py-1.5 text-xs font-medium tracking-wide text-gray-700 shadow-sm ring-1 ring-gray-200 transition hover:bg-brand-blue/5 hover:text-brand-blue hover:ring-brand-blue/30 sm:text-sm"
               >
                 {rs}
               </span>
@@ -130,33 +132,38 @@ export default function TestimoniRotator({ items }: { items: KerjasamaTestimoni[
             <button
               type="button"
               onClick={() => setShowAll((v) => !v)}
-              className="mt-3 text-xs font-semibold text-brand-blue underline underline-offset-2 hover:text-brand-green"
+              className="mt-4 text-sm font-semibold text-brand-blue underline underline-offset-4 hover:text-brand-green"
             >
               {showAll ? "Sembunyikan" : `Lihat ${hiddenCount} rumah sakit lainnya`}
             </button>
           )}
 
-          <p className="mx-auto mt-4 max-w-3xl text-xs italic leading-relaxed text-gray-500 sm:text-sm">
+          <p className="mx-auto mt-5 max-w-3xl text-sm leading-relaxed text-gray-500 sm:text-[15px]">
             {RS_CLOSING}
           </p>
         </>
       ) : (
-        <p className="text-xs italic leading-relaxed text-gray-500 sm:text-sm">&ldquo;{current.isi}&rdquo;</p>
+        <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+          &ldquo;{current.isi}&rdquo;
+        </p>
       )}
 
       {(current.nama || current.jabatan) && (
-        <p className="mt-2 text-xs font-semibold text-gray-600">
+        <p className="mt-3 text-sm font-semibold text-gray-700">
           {current.nama}
           {current.nama && current.jabatan && " — "}
           {current.jabatan}
         </p>
       )}
+
       {source.length > 1 && (
-        <div className="mt-3 flex justify-center gap-1.5">
+        <div className="mt-4 flex justify-center gap-1.5">
           {source.map((_, i) => (
             <span
               key={i}
-              className={`h-1.5 w-1.5 rounded-full transition ${i === index ? "bg-brand-blue" : "bg-gray-300"}`}
+              className={`h-1.5 w-1.5 rounded-full transition ${
+                i === index ? "bg-brand-blue" : "bg-gray-300"
+              }`}
             />
           ))}
         </div>

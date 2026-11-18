@@ -14,7 +14,7 @@ export default function AboutPreview() {
           Ketahui lebih banyak tentang kami
         </p>
         <Link href="/tentang-kami" className="btn-primary mt-4">
-          Selengkapnya →
+          Selengkapnya 
         </Link>
       </div>
     </section>
